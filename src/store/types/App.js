@@ -1,0 +1,3 @@
+export const SET_FIELD_GRID = 'SET_FIELD_GRID';
+export const SET_STONE_COUNT = 'SET_STONE_COUNT';
+export const OPEN_SIDEBAR = 'OPEN_SIDEBAR';

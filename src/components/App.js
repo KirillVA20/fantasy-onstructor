@@ -1,22 +1,28 @@
 import React, {useState} from "react";
-import {PlusOutlined, BankOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
+import GridField from './GridField/GridField';
+import SidebarPanel from './SidebarPanel/SidebarPanel';
+import {connect} from 'react-redux';
+import {SetFieldGridCount} from '../store/actions/App';
+import HeaderPanel from './HeaderPanel/HeaderPanel';
 
 function App(props) {
-    const [openModal, setOpenModal] = useState(false);
-
     const [centerFactory, setCenterFactory] = useState(false);
 
-    const [fieldGrid, setFieldGrid] = useState(1);
+    const createFantasyHandler = () => {
+        setCenterFactory(true);
+        props.SetFieldGridCount(3);
+    };
 
     const renderContent = () => {
         let content;
         if (centerFactory) {
-            content = <div className="fc-centerFactory"><BankOutlined /></div>
+            content = <GridField />;
 
             return content;
         }
         content = <button className="fc-createFantasy"
-                          onClick={() => setCenterFactory(true)}  
+                          onClick={createFantasyHandler}  
                   >
                         <PlusOutlined />
                     </button>
@@ -25,6 +31,12 @@ function App(props) {
 
     return (
         <section className="fantasy-constructor">
+            { (centerFactory) 
+                    ? <React.Fragment>
+                        <HeaderPanel /><SidebarPanel />
+                      </React.Fragment> 
+                    : ""
+            }
             <div className="fc-field">
                 {renderContent()}
             </div>
@@ -33,4 +45,10 @@ function App(props) {
     )
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        SetFieldGridCount: (count) => dispatch(SetFieldGridCount(count)),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(App);
